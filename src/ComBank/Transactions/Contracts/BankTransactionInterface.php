@@ -12,13 +12,7 @@ use ComBank\Exceptions\InvalidOverdraftFundsException;
 
 interface BankTransactionInterface
 {
-   /**
-     * Aplica la transacción a una cuenta bancaria.
-     *
-     * @param BankAccountInterface $account La cuenta bancaria a la cual se aplicará la transacción.
-     * @return float El nuevo saldo de la cuenta después de aplicar la transacción.
-     */
-    public function applyTransaction(BankAccountInterface $account);
+    public function applyTransaction(BackAccountInterface $account);
 
     /**
      * Devuelve la información de la transacción.

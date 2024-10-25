@@ -8,29 +8,21 @@
  */
 
 use ComBank\Bank\Contracts\BackAccountInterface;
+use ComBank\Exceptions\InvalidOverdraftFundsException;
+use ComBank\Support\Traits\AmountValidationTrait;
 use ComBank\Transactions\Contracts\BankTransactionInterface;
 
-class DepositTransaction implements BankTransactionInterface
+class DepositTransaction extends BaseTransaction implements BankTransactionInterface
 {
-    private $amount;
-
-    /**
-     * Constructor que establece el monto del depósito.
-     *
-     * @param float $amount
-     */
+    use AmountValidationTrait;
     public function __construct(float $amount)
     {
+        $this->validateAmount($amount);
         $this->amount = $amount;
+        
     }
-
-    /**
-     * Aplica la transacción de depósito a la cuenta bancaria.
-     *
-     * @param BankAccountInterface $account
-     * @return float El nuevo saldo de la cuenta.
-     */
-    public function applyTransaction(BankAccountInterface $account)
+    
+    public function applyTransaction(BackAccountInterface $account)
     {
         // Obtener el saldo actual
         $currentBalance = $account->getBalance();
@@ -52,7 +44,7 @@ class DepositTransaction implements BankTransactionInterface
      */
     public function getTransactionInfo()
     {
-        return "Depósito de: $" . number_format($this->amount, 2);
+        return 'DEPOSIT_TRANSACTION';
     }
 
     /**
